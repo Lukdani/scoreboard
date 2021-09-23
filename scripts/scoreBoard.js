@@ -5,6 +5,17 @@ export default class ScoreBoard{
     }
 
     currentScore = {};
+    totalScore = 0;
+  
+    setTotalScore(newScore) {
+        this.totalScore = newScore;
+        document.querySelector("#totalScore").innerHTML = this.totalScore;
+    }
+
+    calculateTotalScore = () => {
+        const calcuatedScore = Object.values(this.currentScore).reduce((prevValue, newValue) => prevValue + newValue);
+        this.setTotalScore(calcuatedScore);
+    }
 
     handleScore = (e, type) => {
         const hole = (e.currentTarget.getAttribute(type == "increase" ? "data-increase" : "data-decrease"));
@@ -18,9 +29,15 @@ export default class ScoreBoard{
         else if (type == "increase") {
             newScore++;
         }
-        
+
         this.currentScore[hole] = newScore;
         document.querySelector(`input[name="golfHole-${hole}"]`).setAttribute("value", this.currentScore[hole]);
+        this.calculateTotalScore();
+    }
+
+    resetGame(element) {
+        element.innerHTML = "";
+        this.setTotalScore(0);
     }
 
     generateInputFields(element) {
@@ -66,7 +83,4 @@ export default class ScoreBoard{
             plusButton.addEventListener("click", (e) => this.handleScore(e, "increase"));
         }
     }
-
-    addEventListeners 
-
 }
