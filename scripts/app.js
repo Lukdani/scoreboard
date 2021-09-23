@@ -1,6 +1,7 @@
-import gameController from "./gameController.js";
+import GameController from "./gameController.js";
 
 window.onload = () => {
-    gameController();
-
+    const controller = new GameController();
+    controller.setupEventListeners();
+    controller.beginReset();
 }

@@ -8,28 +8,38 @@
 	<meta name="robots" content="All">
 	<meta name="author" content="Udgiver">
 	<meta name="copyright" content="Information om copyright">
-	
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Roboto&display=swap" rel="stylesheet">
 	<link href="./css/bootstrap.css" rel="stylesheet" type="text/css">
 	<link href="./css/styles.css" rel="stylesheet" type="text/css">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
-<body>
-<div>
-	<h3>Spiller: <span id="playerName"></span></h3>
-	<p>Total score: <span id="totalScore">0</span></p>
-	<button id="resetButton">Reset game</button>
-	<div id="app">
+<body class="bg-dark">
+<div id="appContainer">
 
-<!--
-	<button data-key="hole1" class="decreaseButton  btn btn-primary">-</button>
-	<input name="hole1" value="0"/>
-	<button class="increaseButton btn btn-primary">+</button>
-	 -->
-</div>
+	<div id="gameData">
+		<h3 class="text-accent" id="playerName"></h3>
+		<p>Total score: <span id="totalScore">0</span></p>
+		<button id="beginReset" class="btn btn-secondary btn-sm">Reset scoreboard</button>
+	</div>
 
-</div>
+
+	<div id="gameDataInput" class="hideElement">
+		<h3 class="text-accent"> 😎 ⛳️ <br>Let's set up the scoreboard!</h3>
+	<label for="playerNameElementInput">Player name 🏌️‍♀️/🏌️‍♂️</label>
+	<input class="gameDataInput" id="playerNameElementInput" />
+	<label for="holesInputElement"># of holes ⛳️</label>
+	<input class="gameDataInput" id="holesInputElement" />
+	<button disabled id="reset" class="btn btn-success btn-sm" id="resetButton">OK 👌</button>
+	</div>
+
+	<div id="scoreCard">
+
+	</div>
+
 	  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
 <script type="module" src="./scripts/app.js">

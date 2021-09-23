@@ -4,6 +4,18 @@
 @import "../node_modules/bootstrap/scss/variables";
 @import "../node_modules/bootstrap/scss/mixins";
 
+
+$custom-primary: #1B998B;
+$custom-secondary: #403D58;
+$custom-danger: #D11149;
+$custom-dark: #120309;
+$custom-light: #eee;
+$custom-accent: #F18F01;
+$custom-gradient-background: linear-gradient(180deg, rgba(86,125,70,1) 1%, rgba(117,156,101,1) 80%);
+
+$font-family: 'Roboto', sans-serif;
+$header-font: 'Architects Daughter';
+
 //Tilføj eller ret farver i Bootstrap. Herunder er primary blot sat til den normale primary
 /*
 Eksempel på farver
@@ -14,7 +26,11 @@ $custom-colors: (
  */
 
 $custom-colors: (
-        "primary": #007bff
+        "primary": $custom-primary,
+        "secondary":$custom-secondary,
+        "danger": $custom-danger,
+        "dark": $custom-dark,
+        "accent": $custom-accent,
 );
 $theme-colors: map-merge($theme-colors, $custom-colors);
 

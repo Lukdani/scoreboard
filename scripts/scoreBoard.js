@@ -1,4 +1,4 @@
-export default class ScoreBoard{
+export default class ScoreBoard {
     constructor(gameName, holes) {
         this.gameName = gameName;
         this.numberOfHoles = holes;
@@ -25,8 +25,13 @@ export default class ScoreBoard{
 
         if (type == "decrease") {
             if (newScore > 0) newScore = newScore - 1;
+            if (newScore === 0) e.currentTarget.disabled = true;
         }
+
         else if (type == "increase") {
+            if (newScore === 0) {
+                document.querySelector(`.buttonDecrease[data-decrease="${hole}"]`).disabled = false;
+            }
             newScore++;
         }
 
@@ -55,13 +60,15 @@ export default class ScoreBoard{
             this.currentScore[index +1] = 0;
             const inputContainer = document.createElement("div");
             inputContainer.setAttribute("id", `golfHole-${index + 1}`);
+            inputContainer.setAttribute("class", `golfHole`);
             element.appendChild(inputContainer);
 
             // Decrease button;
             const decreaseButton = document.createElement("button");
             decreaseButton.addEventListener("click", (e) => this.handleScore(e, "decrease"));
             decreaseButton.createTextNode = "-";
-            decreaseButton.setAttribute("class", "btn btn-primary buttonDecrease");
+            decreaseButton.disabled = true;
+            decreaseButton.setAttribute("class", "btn btn-danger buttonDecrease");
             decreaseButton.setAttribute("data-decrease", index +1);
             const decreaseText = document.createTextNode("-");
             decreaseButton.appendChild(decreaseText);
@@ -71,6 +78,8 @@ export default class ScoreBoard{
             const inputField = document.createElement("input");
             inputField.setAttribute("name", `golfHole-${index + 1}`);
             inputField.setAttribute("value", 0);
+            inputField.disabled = true;
+            inputField.setAttribute("class", "holeInput");
             inputContainer.appendChild(inputField);
 
             // Increase button;
