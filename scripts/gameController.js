@@ -17,7 +17,7 @@ export default class GameController {
         this.playerNameElement = document.querySelector("#playerName");
         
         this.playerName = "";
-        this.numberOfHoles = 0;
+        this.numberOfHoles = 12;
         this.game;
     }
    
@@ -39,14 +39,21 @@ export default class GameController {
         });
         
         this.holesInputElement.addEventListener("change", e => {
+       
             let value = e.target.value;
             try {
-                value = +value;
+                value = parseInt(value);
+                if (isNaN(value)) {
+                    e.currentTarget.value = this.numberOfHoles;
+                }
+                else if (!isNaN(value)) {
+                    this.numberOfHoles = value > 12 ? 12 : value;
+                    e.currentTarget.value = this.numberOfHoles;
+                }   
             }
             catch(e) {
                 console.log(e);
             }
-            this.numberOfHoles = value;
             this.toggleDisableResetButton();
         })    
 

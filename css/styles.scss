@@ -90,7 +90,13 @@ img {
 	&:focus-visible{
 		box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
 		outline: none;
-		transform: scale(1.2) rotate(5deg);
+		&:not(:last-of-type) {
+			transform: scale(1.2) rotate(5deg);
+		}
+		&:last-of-type {
+			transform: scale(1.2) rotate(-1deg);
+		}
+	
 	}
 }
 
@@ -121,4 +127,13 @@ label {
 	font-family: $header-font;
 	color: $custom-dark;	
 	margin-top: 1rem;
+}
+
+#dataContainer {
+	max-width: 600px;
+	margin: auto;
+}
+
+.teaser {
+	font-family: $header-font;
 }
