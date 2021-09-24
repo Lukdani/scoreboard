@@ -1,4 +1,6 @@
 import ScoreBoard from "./scoreBoard.js";
+import jsonTryParse from "./utils/jsonTryParse.js";
+import { getFromLocalStorage } from "./utils/localStorage.js";
 
 export default class GameController {
   
@@ -11,6 +13,8 @@ export default class GameController {
         this.playerNameInputElement = document.querySelector("#playerNameElementInput");
         this.holesInputElement = document.querySelector("#holesInputElement");
         this.resetButton = document.querySelector("#reset");
+
+        this.restoreButton = document.querySelector("#restore");
     
         this.beginResetbutton = document.querySelector("#beginReset");
     
@@ -57,7 +61,7 @@ export default class GameController {
             this.toggleDisableResetButton();
         })    
 
-    this.resetButton.addEventListener("click", () => {this.resetGame();});
+    this.resetButton.addEventListener("click", () => {this.resetGame(this.playerName, this.numberOfHoles, null);});
 
     this.beginResetbutton.addEventListener("click", () => {
         if (this.game != null) {
@@ -66,12 +70,21 @@ export default class GameController {
         this.toggleResetButtons  ();
     });
 
+    this.restoreButton.addEventListener("click", () => {this.restoreGame()})
+
     }
 
     toggleResetButtons = () => {
         this.gameData.classList.toggle("hideElement");
         this.gameDataInput.classList.toggle("hideElement");
         this.beginResetbutton.classList.toggle("hideElement");
+
+        if (!this.gameDataInput.classList.contains("hideElement")) {
+            const savedScoreBoard = getFromLocalStorage("scoreBoard");
+            if (savedScoreBoard) {
+                this.restoreButton.classList.toggle("hideElement");
+            }
+        }
     }
 
     beginReset() {
@@ -82,17 +95,29 @@ export default class GameController {
         this.holesInputElement = 0;
     }
 
-    resetGame() {
+    resetGame(playerName, numberOfHoles, currentScore) {
         this.toggleResetButtons();
         if (this.game != null) {
             this.game.resetGame(this.appElement);
         }
-        this.startGame();
+        this.startGame(playerName, numberOfHoles, currentScore);
     }
 
-    startGame() {
-        this.game = new ScoreBoard(this.playerName, this.numberOfHoles)
-        this.game.generateInputFields(this.appElement);
-        this.playerNameElement.innerHTML = `${this.playerName || "Uknown"}'${this.playerName[this.playerName.length -1]?.toLowerCase() !== "s" ? 's' : ''} scorecard`;
+    startGame(playerName, numberOfHoles, currentScore) {
+        this.game = new ScoreBoard(playerName, numberOfHoles, this.appElement, currentScore)
+        this.playerNameElement.innerHTML = `${playerName || "Uknown"}'${playerName[playerName.length -1]?.toLowerCase() !== "s" ? 's' : ''} scorecard`;
     }    
+
+    restoreGame() {
+        const stringifiedSavedGame = getFromLocalStorage("scoreBoard")
+        if (stringifiedSavedGame != null) {
+            try {
+               const parsedGame = jsonTryParse(stringifiedSavedGame);
+               if (parsedGame) this.resetGame(parsedGame.playerName, parsedGame.numberOfHoles, parsedGame.currentScore)
+            }
+            catch(e) {
+                console.log(e)
+            }
+        }
+    }
 }

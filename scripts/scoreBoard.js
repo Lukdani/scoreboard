@@ -1,11 +1,23 @@
+import jsonTryStringify from "./utils/jsonTryStringify.js";
+
+import { saveToLocalStorage } from "./utils/localStorage.js";
+
 export default class ScoreBoard {
-    constructor(gameName, holes) {
+    constructor(gameName, holes, appContainer, currentScore) {
         this.gameName = gameName;
         this.numberOfHoles = holes;
+        if (currentScore) {
+            this.currentScore = currentScore;
+            console.log(this.currentScore[1]);
+            this.calculateTotalScore();
+        }
+        else if (!currentScore) {
+            this.currentScore = {};
+        }
+        this.generateInputFields(appContainer);
+        saveToLocalStorage("scoreBoard", jsonTryStringify({currentScore: this.currentScore, playerName: this.gameName, numberOfHoles: this.numberOfHoles}));
     }
 
-    currentScore = {};
-    totalScore = 0;
   
     setTotalScore(newScore) {
         this.totalScore = newScore;
@@ -21,7 +33,7 @@ export default class ScoreBoard {
         const hole = (e.currentTarget.getAttribute(type == "increase" ? "data-increase" : "data-decrease"));
         if (hole === null) return;
 
-        let newScore = this.currentScore[hole];
+        let newScore = this.currentScore[hole] || 0;
 
         if (type == "decrease") {
             if (newScore > 0) newScore = newScore - 1;
@@ -36,8 +48,10 @@ export default class ScoreBoard {
         }
 
         this.currentScore[hole] = newScore;
+        this.setTotalScore()
         document.querySelector(`input[name="golfHole-${hole}"]`).setAttribute("value", this.currentScore[hole]);
         this.calculateTotalScore();
+        saveToLocalStorage("scoreBoard", jsonTryStringify({currentScore: this.currentScore, playerName: this.gameName, numberOfHoles: this.numberOfHoles}));
     }
 
     resetGame(element) {
@@ -57,7 +71,10 @@ export default class ScoreBoard {
         })
 
         for (let index = 0; index < this.numberOfHoles; index++) {
-            this.currentScore[index +1] = 0;
+            if (!this.currentScore[index + 1]) {
+                this.currentScore[index +1] = 0;
+            }
+
             const inputContainer = document.createElement("div");
             inputContainer.setAttribute("id", `golfHole-${index + 1}`);
             inputContainer.setAttribute("class", `golfHole`);
@@ -77,7 +94,7 @@ export default class ScoreBoard {
             // Input field;
             const inputField = document.createElement("input");
             inputField.setAttribute("name", `golfHole-${index + 1}`);
-            inputField.setAttribute("value", 0);
+            inputField.setAttribute("value", this.currentScore[index + 1]);
             inputField.disabled = true;
             inputField.setAttribute("class", "holeInput");
             inputContainer.appendChild(inputField);
