@@ -114,9 +114,12 @@ img {
 	display: none;
 }
 
-#reset {
+#reset, #restore {
 	margin-top: 1rem;
 	transition: transform .2s ease-in-out;
+	&:not(:last-of-type) {
+		margin-right: 1rem;
+	}
 }
 
 #reset:not(:disabled) {

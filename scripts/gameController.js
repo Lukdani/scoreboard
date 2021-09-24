@@ -5,26 +5,33 @@ import { getFromLocalStorage } from "./utils/localStorage.js";
 export default class GameController {
   
     constructor() {
+
+        // The container for the app;
         this.appElement = document.querySelector("#scoreCard");
 
+        // Elements conditionally shown based on current state of the app;
         this.gameData = document.querySelector("#gameData");
         this.gameDataInput = document.querySelector("#gameDataInput")
 
+        // Input fields for name and number of holes;
         this.playerNameInputElement = document.querySelector("#playerNameElementInput");
         this.holesInputElement = document.querySelector("#holesInputElement");
+        
+        // Buttons;
         this.resetButton = document.querySelector("#reset");
-
         this.restoreButton = document.querySelector("#restore");
-    
         this.beginResetbutton = document.querySelector("#beginReset");
-    
+
+        // Label for player name;
         this.playerNameElement = document.querySelector("#playerName");
         
+        // Game state;
         this.playerName = "";
         this.numberOfHoles = 12;
         this.game;
     }
    
+    // Function to handle whether "OK" button should be disabled or not;
     toggleDisableResetButton = () => {
         if (this.playerName.length > 0 && this.numberOfHoles > 0) {
             this.resetButton.disabled = false;
@@ -34,6 +41,7 @@ export default class GameController {
         }
     }
 
+    // Function to setup event listeners to listen for button clicks etc;
     setupEventListeners = () => {
         this.playerNameInputElement.addEventListener("change", e => {
             const value = e.target.value;
@@ -43,10 +51,14 @@ export default class GameController {
         });
         
         this.holesInputElement.addEventListener("change", e => {
-       
+
             let value = e.target.value;
+
+            // Wrapping in try/catch to handle failed parsings;
             try {
                 value = parseInt(value);
+
+                // Only accepting numbers and defaulting to 12 if the user did not supply valid number or number above 12;
                 if (isNaN(value)) {
                     e.currentTarget.value = this.numberOfHoles;
                 }
@@ -58,6 +70,8 @@ export default class GameController {
             catch(e) {
                 console.log(e);
             }
+
+            // Checking if the "OK" button should be enabled (which it should if user also supplied a username at this point);
             this.toggleDisableResetButton();
         })    
 
@@ -70,15 +84,18 @@ export default class GameController {
         this.toggleResetButtons  ();
     });
 
-    this.restoreButton.addEventListener("click", () => {this.restoreGame()})
+    this.restoreButton.addEventListener("click", () => this.restoreGame())
 
     }
 
+
+    // Toggling view when state of the app changes;
     toggleResetButtons = () => {
         this.gameData.classList.toggle("hideElement");
         this.gameDataInput.classList.toggle("hideElement");
         this.beginResetbutton.classList.toggle("hideElement");
 
+        // Only toggling the restore button, if there is a saved game in local storage AND if the view is currently showing the gameDataInput container;
         if (!this.gameDataInput.classList.contains("hideElement")) {
             const savedScoreBoard = getFromLocalStorage("scoreBoard");
             if (savedScoreBoard) {
@@ -111,13 +128,8 @@ export default class GameController {
     restoreGame() {
         const stringifiedSavedGame = getFromLocalStorage("scoreBoard")
         if (stringifiedSavedGame != null) {
-            try {
                const parsedGame = jsonTryParse(stringifiedSavedGame);
                if (parsedGame) this.resetGame(parsedGame.playerName, parsedGame.numberOfHoles, parsedGame.currentScore)
             }
-            catch(e) {
-                console.log(e)
-            }
-        }
     }
 }

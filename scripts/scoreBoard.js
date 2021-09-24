@@ -1,6 +1,6 @@
 import jsonTryStringify from "./utils/jsonTryStringify.js";
 
-import { saveToLocalStorage } from "./utils/localStorage.js";
+import { clearFromLocalStorage, saveToLocalStorage } from "./utils/localStorage.js";
 
 export default class ScoreBoard {
     constructor(gameName, holes, appContainer, currentScore) {
@@ -8,7 +8,6 @@ export default class ScoreBoard {
         this.numberOfHoles = holes;
         if (currentScore) {
             this.currentScore = currentScore;
-            console.log(this.currentScore[1]);
             this.calculateTotalScore();
         }
         else if (!currentScore) {
@@ -31,8 +30,9 @@ export default class ScoreBoard {
 
     handleScore = (e, type) => {
         const hole = (e.currentTarget.getAttribute(type == "increase" ? "data-increase" : "data-decrease"));
-        if (hole === null) return;
 
+        // Stopping function if hole isn't represented in the view;
+        if (hole === null) return;
         let newScore = this.currentScore[hole] || 0;
 
         if (type == "decrease") {
@@ -48,33 +48,34 @@ export default class ScoreBoard {
         }
 
         this.currentScore[hole] = newScore;
+
         this.setTotalScore()
         document.querySelector(`input[name="golfHole-${hole}"]`).setAttribute("value", this.currentScore[hole]);
+
+        // Calculation total score everytime score changes to update UI;
         this.calculateTotalScore();
+
+        // Caching in local storage every time score changes;
         saveToLocalStorage("scoreBoard", jsonTryStringify({currentScore: this.currentScore, playerName: this.gameName, numberOfHoles: this.numberOfHoles}));
     }
 
     resetGame(element) {
+
+        //Clearing storage, so "restore" button won't show;
+        clearFromLocalStorage("scoreBoard");
         element.innerHTML = "";
         this.setTotalScore(0);
     }
 
     generateInputFields(element) {
-        document.addEventListener("keyup", (e) => {
-            if (e.currentTarget["data-decrease"]) {
-                console.log("Decrease button");
-            }
-            else if (e.currentTarget["data-increase"]) {
-                console.log("Increase button");
-            }
-            console.log(e.currentTarget);
-        })
-
         for (let index = 0; index < this.numberOfHoles; index++) {
+
+            // Only defaulting score to 0 if score wasn't already restored from cache;
             if (!this.currentScore[index + 1]) {
                 this.currentScore[index +1] = 0;
             }
 
+            // Container to wrap decrease button, input field and increase button;
             const inputContainer = document.createElement("div");
             inputContainer.setAttribute("id", `golfHole-${index + 1}`);
             inputContainer.setAttribute("class", `golfHole`);
