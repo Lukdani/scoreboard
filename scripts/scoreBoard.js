@@ -14,7 +14,7 @@ export default class ScoreBoard {
             this.currentScore = {};
         }
         this.generateInputFields(appContainer);
-        saveToLocalStorage("scoreBoard", jsonTryStringify({currentScore: this.currentScore, playerName: this.gameName, numberOfHoles: this.numberOfHoles}));
+        saveToLocalStorage("scoreBoard", jsonTryStringify({currentScore: this.currentScore, playerName: this.gameName, numberOfHoles: this.numberOfHoles, restoreTime: new Date()}));
     }
 
   
@@ -56,7 +56,7 @@ export default class ScoreBoard {
         this.calculateTotalScore();
 
         // Caching in local storage every time score changes;
-        saveToLocalStorage("scoreBoard", jsonTryStringify({currentScore: this.currentScore, playerName: this.gameName, numberOfHoles: this.numberOfHoles}));
+        saveToLocalStorage("scoreBoard", jsonTryStringify({currentScore: this.currentScore, playerName: this.gameName, numberOfHoles: this.numberOfHoles, restoreTime: new Date()}));
     }
 
     resetGame(element) {
