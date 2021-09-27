@@ -1,2 +1,4 @@
-#Bootstrap & SASS Kick start projekt
-Klon dette projekt og kom hurtigt i gang med dit næste projekt.
+A scoreboard generator for playing minigolf.
+Supports up to 12 golf holes.
+
+Created in JavaScript, HTML, SCSS and Bootstrap.
