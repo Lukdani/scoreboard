@@ -47,8 +47,9 @@ export default class GameController {
   };
 
   // INPUTS FOR PLAYER NAME AND #HOLES;
-  handleHolesInputChanged = (numerOfHoles) => {
-    this.gameModel.setNumberOfHoles(numerOfHoles);
+  handleHolesInputChanged = (numberOfHoles) => {
+    console.log(numberOfHoles);
+    this.gameModel.setNumberOfHoles(numberOfHoles);
     this.handleToggleStartButton();
   };
 

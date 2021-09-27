@@ -33,7 +33,7 @@ export default class GameModel {
 
   // Functions to set game data;
   setNumberOfHoles = (numberOfHoles) => {
-    this.game.numberOfHoles = numberOfHoles;
+    this.game.numberOfHoles = numberOfHoles > 11 ? 12 : numberOfHoles;
     // this.cacheGame();
   };
 

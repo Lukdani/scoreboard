@@ -126,13 +126,62 @@ label {
 // SCORE CARD - dashboard;
 #totalScore {
 	font-family: $header-font;
-	font-size: 3rem;
-	color: $custom-accent;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
 }
 
+.totalScore-label {
+	color: $custom-dark;
+	font-size: 1rem;
+	margin-right: .5rem;
+}
+
+.totalScore-value {
+	color: $custom-accent;
+	width: 50px;
+	font-size: 3rem;
+	&:not(:last-of-type) {
+		margin-right: .5rem;
+	}
+}
+
+.totalScore-value--fixedWidth {
+	width: 60px;
+}
+
+.totalScore-label--fixedWidth {
+	min-width: 50px;
+}
+
+
 //SCORE CARD - hole containers;
+
+
+
 .golfHole:not(:last-of-type) {
 	margin-bottom: .75rem;
+}
+
+.golfHole-buttonContainer{
+	position:relative;
+	display: inline-block;
+}
+
+.golfHole-indicator {
+	position: absolute;
+	left: 0;
+	transform: translateX(-100%);
+	padding-right: .5rem;
+	color: $custom-accent;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	font-family: $header-font;
+	font-size: 1.4rem;
+	width: 50px;
+	text-align: left;
 }
 
 //SCORE CARD - hole counters;

@@ -146,6 +146,22 @@ export default class GameView {
 
     this.scoreCard.appendChild(inputContainer);
 
+    const buttonsContainer = this.createElement(
+      'span',
+      ['golfHole-buttonContainer'],
+      null,
+    );
+
+    inputContainer.appendChild(buttonsContainer);
+
+    // Indicator of hole number;
+    const golfHoleIndicator = this.createElement('p', [
+      'golfHole-indicator',
+    ]);
+    golfHoleIndicator.setAttribute('data-holeIndicator', holeNumber);
+    golfHoleIndicator.innerHTML = holeNumber;
+    buttonsContainer.appendChild(golfHoleIndicator);
+
     // Decrease button;
     const decreaseButton = this.createElement('button', [
       'btn',
@@ -155,7 +171,7 @@ export default class GameView {
     decreaseButton.textContent = '-';
     decreaseButton.disabled = initialScore > 0 ? false : true;
     decreaseButton.setAttribute('data-decrease', holeNumber);
-    inputContainer.appendChild(decreaseButton);
+    buttonsContainer.appendChild(decreaseButton);
 
     // Input field;
     const inputField = this.createElement(
@@ -166,7 +182,7 @@ export default class GameView {
     inputField.setAttribute('name', `golfHole-${holeNumber}`);
     inputField.disabled = true;
     inputField.value = initialScore || 0;
-    inputContainer.appendChild(inputField);
+    buttonsContainer.appendChild(inputField);
 
     // Increase button;
     const plusButton = this.createElement(
@@ -176,7 +192,7 @@ export default class GameView {
     );
     plusButton.setAttribute('data-increase', holeNumber);
     plusButton.textContent = '+';
-    inputContainer.appendChild(plusButton);
+    buttonsContainer.appendChild(plusButton);
     this.scoreCard.appendChild(inputContainer);
   }
 
@@ -188,9 +204,18 @@ export default class GameView {
 
   updateScore(newScore, averageScore) {
     const label = this.getElement('#totalScore');
-    label.textContent = `${generatePrizeEmoji(averageScore || 0)} ${
+    label.innerHTML = `
+    <span class="totalScore-label">Total score:</span>
+    <span class="totalScore-value totalScore-value--fixedWidth"> ${
       newScore || 0
-    }`;
+    } </span>
+    <span class="totalScore-label">Estimated prize:</span> 
+    <span class="totalScore-value"> ${generatePrizeEmoji(
+      averageScore || 0,
+    )}</span>
+    ${`<span class="totalScore-label">Average per hole:</span><span class="totalScore-label totalScore-label--fixedWidth"> ${
+      averageScore > 0 ? averageScore.toFixed(1) : '❓'
+    } </span>`}`;
   }
 
   setRestoreTitle(title) {
