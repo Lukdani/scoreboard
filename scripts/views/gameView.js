@@ -1,4 +1,4 @@
-import generatePrizeEmoji from './utils/generatePrizeEmoji.js';
+import generatePrizeEmoji from '../utils/generatePrizeEmoji.js';
 
 export default class GameView {
   constructor() {
@@ -77,7 +77,7 @@ export default class GameView {
 
     this.holesInputLabel = this.createElement('label');
     this.holesInputLabel.setAttribute('for', 'holesInput');
-    this.holesInputLabel.textContent = '# of holes (12 max) ⛳️<';
+    this.holesInputLabel.textContent = '# of holes (12 max) ⛳️';
     this.holesInput = this.createElement(
       'input',
       ['gameDataInputField'],

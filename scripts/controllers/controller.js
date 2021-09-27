@@ -1,9 +1,9 @@
-import jsonTryParse from './utils/jsonTryParse.js';
+import jsonTryParse from '../utils/jsonTryParse.js';
 import {
   clearFromLocalStorage,
   getFromLocalStorage,
-} from './utils/localStorage.js';
-import nameApostropher from './utils/nameApostropher.js';
+} from '../utils/localStorage.js';
+import nameApostropher from '../utils/nameApostropher.js';
 
 export default class GameController {
   constructor(gameModel, gameView) {

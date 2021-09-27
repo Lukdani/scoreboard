@@ -1,5 +1,5 @@
-import jsonTryStringify from './utils/jsonTryStringify.js';
-import { saveToLocalStorage } from './utils/localStorage.js';
+import jsonTryStringify from '../utils/jsonTryStringify.js';
+import { saveToLocalStorage } from '../utils/localStorage.js';
 
 export default class GameModel {
   constructor() {
