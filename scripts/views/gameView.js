@@ -13,7 +13,7 @@ export default class GameView {
 
     this.subHeader = this.createElement('p', ['teaser'], null);
     this.subHeader.textContent =
-      'That one thing you surely didnt know you needed in your life...';
+      "That one thing you surely didn't know you needed in your life...";
 
     // Container for the dashboards
     this.gameDataContainer = this.createElement(
