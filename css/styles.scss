@@ -20,16 +20,6 @@ h1, h2, h3, h4, h5, h6 {
 	font-family: $header-font;
 }
 
-ul, ol {
-	margin: 2px 10px 2px 10px;
-	padding: 0;
-	list-style-position: inside;
-}
-
-li {
-	margin: 0;
-}
-
 p {
 	margin: 0;
 	padding: 0;
@@ -41,36 +31,29 @@ img {
 	height: auto;
 }
 
+// ROOT;
 #appContainer {
+	padding: 1rem;
 	text-align: center;
 }
 
-.buttonDecrease, .buttonIncrease {
-	border-radius: 100%;
-	height: 50px;
-	width: 50px;
-	opacity: .9;
+/////// FRONT PAGE ///////
 
-	&:hover {
-		transform: scale(1.2) skewY(5deg);
-		opacity: 1;
-		transition: all .25s ease-in-out;
-	}
+// FRONT PAGE - Headers;
 
-	&:first-child {
-		margin-right: .5rem;
-	}
-
-	&:nth-of-type(2) {
-		margin-left: .5rem;
-	}
+.teaser {
+	font-family: $header-font;
+	color: $custom-dark;
+	padding: .5rem 0;
 }
 
-.golfHole:not(:last-of-type) {
-	margin-bottom: .75rem;
+// FRONT PAGE - Inputs;;
+label {
+	font-family: $header-font;
+	color: $custom-dark;	
+	margin-top: 1rem;
 }
-
-.gameDataInput {
+.gameDataInputField {
 	background-color: $custom-primary;
 	color: $custom-dark;
 	border: 0;
@@ -96,10 +79,46 @@ img {
 		&:last-of-type {
 			transform: scale(1.2) rotate(-1deg);
 		}
-	
 	}
 }
 
+// FRONT PAGE - buttons;
+#startGame, #restoreGame {
+	margin-top: 1rem;
+	transition: transform .2s ease-in-out;
+	animation: fadeIn .5s;
+	&:not(:last-of-type) {
+		margin-right: 1rem;
+	}
+}
+
+#startGame:not(:disabled) {
+	transform: scale(1.5);
+	margin-right: 2rem;
+}
+
+/////// SCORE CARD ///////
+
+// SCORE CARD - container for the dashboard and the score card itself;
+#dataContainer {
+	max-width: 600px;
+	margin: auto;
+	animation: fadeIn .5s;
+}
+
+// SCORE CARD - dashboard;
+#totalScore {
+	font-family: $header-font;
+	font-size: 3rem;
+	color: $custom-accent;
+}
+
+//SCORE CARD - hole containers;
+.golfHole:not(:last-of-type) {
+	margin-bottom: .75rem;
+}
+
+//SCORE CARD - hole counters;
 .holeInput {
 	background-color: transparent;
 	border: 0;
@@ -110,33 +129,40 @@ img {
 	font-family: $header-font;
 }
 
+// SCORE CARD - decrease and increase buttons;
+.buttonDecrease, .buttonIncrease {
+	border-radius: 100%;
+	height: 50px;
+	width: 50px;
+	opacity: .9;
+	transition: all .25s ease-in-out;
+
+	&:hover {
+		transform: scale(1.2) skewY(5deg);
+		opacity: 1;
+	
+	}
+
+	&:first-child {
+		margin-right: .5rem;
+	}
+
+	&:nth-of-type(2) {
+		margin-left: .5rem;
+	}
+	&:disabled {
+		transform: scale(.75);
+	}
+}
+
+
+// UTILS;
 .hideElement {
 	display: none;
 }
 
-#reset, #restore {
-	margin-top: 1rem;
-	transition: transform .2s ease-in-out;
-	&:not(:last-of-type) {
-		margin-right: 1rem;
-	}
-}
-
-#reset:not(:disabled) {
-	transform: scale(1.5);
-}
-
-label {
-	font-family: $header-font;
-	color: $custom-dark;	
-	margin-top: 1rem;
-}
-
-#dataContainer {
-	max-width: 600px;
-	margin: auto;
-}
-
-.teaser {
-	font-family: $header-font;
+// ANIMATIONS;
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }

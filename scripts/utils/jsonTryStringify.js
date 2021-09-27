@@ -1,8 +1,9 @@
-export default function jsonTryStringify(passedObject) {
-    try {
-        return JSON.stringify(passedObject);
-    }
-    catch(e) {
-        console.log(e);
-    }
-}
+const jsonTryStringify = (passedObject) => {
+  try {
+    return JSON.stringify(passedObject);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export default jsonTryStringify;

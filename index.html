@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	
-	<title>Minigolf - score board</title>
+	<title>Mini golf - scorecard generator</title>
 	
 	<meta name="robots" content="All">
 	<meta name="author" content="Udgiver">
@@ -13,40 +13,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Roboto&display=swap" rel="stylesheet">
 	<link href="./css/bootstrap.css" rel="stylesheet" type="text/css">
 	<link href="./css/styles.css" rel="stylesheet" type="text/css">
+	<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⛳️</text></svg>">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body class="bg-dark">
-<div id="appContainer">
-	<h1 class="text-dark m-4">Awezumm mini-golf-score-card-generator</h1>
-	<p class="text-dark teaser">That one thing you surely didnt know you needed in your life...</p>
-
-	<div id="dataContainer" class="p-4">
-
-
-	<div id="gameData">
-		<h3 class="text-accent" id="playerName"></h3>
-		<p>Total score: <span id="totalScore">0</span></p>
-		<button id="beginReset" class="btn btn-secondary btn-sm">Reset scoreboard</button>
-	</div>
-
-
-	<div id="gameDataInput" class="hideElement">
-		<h3 class="text-accent"><br>Giev me your data to begin... 💀</h3>
-		<label for="playerNameElementInput">Player name 🏌️‍♀️/🏌️‍♂️</label>
-		<input class="gameDataInput" id="playerNameElementInput" />
-		<label for="holesInputElement"># of holes (12 max) ⛳️</label>
-		<input class="gameDataInput" id="holesInputElement" value="12" />
-		<button disabled id="reset" class="btn btn-success btn-sm" >OK 👌</button>
-		<button id="restore" class="btn btn-danger btn-sm hideElement">Restore from cache 😱</button>
-	</div>
-</div>
-
-	<div id="scoreCard">
+	<div id="appContainer">
 
 	</div>
-</div>
 	  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
 <script type="module" src="./scripts/app.js">
