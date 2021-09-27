@@ -229,14 +229,14 @@ export default class GameView {
 
   // Data binding;
   listenHolesInput = (callBack) => {
-    this.holesInput.addEventListener('change', (e) => {
+    this.holesInput.addEventListener('input', (e) => {
       const value = +e.target.value;
       callBack(value);
     });
   };
 
   listenPlayerNameInput = (callBack) => {
-    this.playerNameInput.addEventListener('change', (e) => {
+    this.playerNameInput.addEventListener('input', (e) => {
       const value = e.target.value;
       callBack(value);
     });
