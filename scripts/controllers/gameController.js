@@ -99,6 +99,7 @@ export default class GameController {
       this.gameModel.getAveragePerHole(),
     );
     this.gameView.toggleGameView();
+    this.gameModel.cacheGame();
   };
 
   // HANDLERS FOR DECREASE/INCREASE SCORE;

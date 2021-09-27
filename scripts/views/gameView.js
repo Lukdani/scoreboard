@@ -153,7 +153,7 @@ export default class GameView {
       'buttonDecrease',
     ]);
     decreaseButton.textContent = '-';
-    decreaseButton.disabled = true;
+    decreaseButton.disabled = initialScore > 0 ? false : true;
     decreaseButton.setAttribute('data-decrease', holeNumber);
     inputContainer.appendChild(decreaseButton);
 

@@ -34,12 +34,12 @@ export default class GameModel {
   // Functions to set game data;
   setNumberOfHoles = (numberOfHoles) => {
     this.game.numberOfHoles = numberOfHoles;
-    this.cacheGame();
+    // this.cacheGame();
   };
 
   setPlayerName = (name) => {
     this.game.playerName = name;
-    this.cacheGame();
+    //this.cacheGame();
   };
 
   setCurrentScore = (score) => {

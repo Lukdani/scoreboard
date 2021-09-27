@@ -39,7 +39,7 @@ img {
 
 /////// FRONT PAGE ///////
 
-// FRONT PAGE - Headers;
+// FRONT PAGE - headers;
 
 .teaser {
 	font-family: $header-font;
@@ -47,7 +47,7 @@ img {
 	padding: .5rem 0;
 }
 
-// FRONT PAGE - Inputs;;
+// FRONT PAGE - inputs;
 label {
 	font-family: $header-font;
 	color: $custom-dark;	
@@ -90,11 +90,20 @@ label {
 	&:not(:last-of-type) {
 		margin-right: 1rem;
 	}
+	&:not(#startGame) {
+
+	&:hover {
+		transform: scale(1.1);
+	}
+}
 }
 
 #startGame:not(:disabled) {
 	transform: scale(1.5);
 	margin-right: 2rem;
+	&:hover {
+		transform: scale(1.7);
+	}
 }
 
 /////// SCORE CARD ///////
