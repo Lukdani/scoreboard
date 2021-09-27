@@ -213,7 +213,7 @@ export default class GameView {
     <span class="totalScore-value"> ${generatePrizeEmoji(
       averageScore || 0,
     )}</span>
-    ${`<span class="totalScore-label">Average per hole:</span><span class="totalScore-label totalScore-label--fixedWidth"> ${
+    ${`<span class="totalScore-label hideOnSmall">Average per hole:</span><span class="totalScore-label totalScore-label--fixedWidth hideOnSmall"> ${
       averageScore > 0 ? averageScore.toFixed(1) : '❓'
     } </span>`}`;
   }

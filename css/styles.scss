@@ -229,6 +229,11 @@ label {
 	display: none;
 }
 
+.hideOnSmall {
+	@media only screen and (max-width : 600px) {
+        display: none;
+    }
+}
 // ANIMATIONS;
 @keyframes fadeIn {
     from { opacity: 0; }
