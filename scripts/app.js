@@ -1,4 +1,4 @@
-import GameController from './controllers/controller.js';
+import GameController from './controllers/gameController.js';
 import GameModel from './models/gameModel.js';
 import GameView from './views/gameView.js';
 
