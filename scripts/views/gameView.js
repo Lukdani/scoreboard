@@ -381,9 +381,10 @@ export default class GameView {
   };
 
   toggleGameView = (showRestoreButton) => {
+    console.log(showRestoreButton);
     this.gameData.classList.toggle('hideElement');
     this.gameDataInput.classList.toggle('hideElement');
-    if (showRestoreButton)
+    if (showRestoreButton != undefined)
       this.toggleRestoreGameButton(showRestoreButton);
   };
 

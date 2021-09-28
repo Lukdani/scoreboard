@@ -131,6 +131,10 @@ label {
 		margin-right: 1rem;
 	}
 }
+
+#startGame:disabled {
+transform: scale(.7);
+}
 /////// SCORE CARD ///////
 
 // SCORE CARD - container for the dashboard and the score card itself;

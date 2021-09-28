@@ -16,10 +16,12 @@ const timeStringBetweenDates = (date1, date2) => {
     case differenceInSeconds < 120:
       timeSpanString = `Less than 2 minutes ago`;
       break;
-    case differenceInSeconds >= 120:
-      timeSpanString = `${Math.floor(120 / 60)} minutes ago`;
+    case differenceInSeconds >= 120 && differenceInSeconds < 6000:
+      timeSpanString = `${Math.floor(
+        differenceInSeconds / 60,
+      )} minutes ago`;
       break;
-    case differenceInSeconds > 120:
+    case differenceInSeconds >= 6000:
       timeSpanString = `Too long ago... 😫`;
       break;
     default:

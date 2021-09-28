@@ -26,10 +26,6 @@ export default class GameController {
     if (this.savedGame) {
       this.handleSetRestoreTimeLabel();
       this.gameView.toggleRestoreGameButton(true);
-      this.gameView.SetRestoreTimeLabel(
-        new Date(this.savedGame.restoreTime),
-        this.newGameStarted,
-      );
     }
 
     // UPDATE RESTORE LABEL;
@@ -141,7 +137,8 @@ export default class GameController {
     );
     this.newGameStarted = true;
     this.handleSetRestoreTimeLabel();
-    this.gameView.playSound('magic');
+    if (!this.gameModel.game.gameMuted)
+      this.gameView.playSound('magic');
     this.gameView.toggleGameView();
     this.cacheGame();
   };
@@ -197,15 +194,16 @@ export default class GameController {
 
     this.handleToggleStartButton();
 
-    this.gameView.toggleGameView(!!this.savedGame);
+    this.newGameStarted = false;
 
     this.gameView.focusPlayerNameInput();
-    this.newGameStarted = false;
 
     //Clear cached game;
     clearFromLocalStorage('scoreBoard');
+    this.savedGame = undefined;
 
-    //Setting restore time label after cache is cleared;
+    //Setting restore time label and toggling restore game button after cache is cleared;
+    this.gameView.toggleGameView(!!this.savedGame);
     this.handleSetRestoreTimeLabel();
   };
 
