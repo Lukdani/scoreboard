@@ -8,6 +8,7 @@ export default class GameModel {
       playerName: '',
       currentScore: {},
       defaultNumberOfHoles: 12,
+      gameMuted: false,
     };
   }
 
@@ -77,6 +78,10 @@ export default class GameModel {
       savedGame?.numberOfHoles || this.game.defaultNumberOfHoles;
     this.game.playerName = savedGame?.playerName || '';
     this.game.currentScore = savedGame?.currentScore || {};
+  };
+
+  toggleMute = () => {
+    this.game.gameMuted = !this.game.gameMuted;
   };
 
   // Function to cache game;

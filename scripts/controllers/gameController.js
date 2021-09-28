@@ -10,6 +10,7 @@ export default class GameController {
     this.gameModel = gameModel;
     this.gameView = gameView;
 
+    // SETTING UP EVENT LISTENERS/DATA BINDING;
     this.gameView.listenHolesInput(this.handleHolesInputChanged);
     this.gameView.listenPlayerNameInput(this.handlePlayerNameChanged);
     this.gameView.listenStartGameClicked(this.handleStartGameClicked);
@@ -17,12 +18,16 @@ export default class GameController {
       this.handleRestoreGameClicked,
     );
     this.gameView.listenBeginReset(this.handleBeginReset);
+    this.gameView.listenMute(this.handleMute);
 
     this.savedGame = jsonTryParse(getFromLocalStorage('scoreBoard'));
     if (this.savedGame) {
       this.gameView.setRestoreTitle(this.savedGame.restoreTime);
       this.gameView.toggleRestoreGameButton();
     }
+
+    // ADDING EVENT LISTENER FOR STARTING GAME ON ENTER CLICK;
+    window.addEventListener('keyup', this.handleEnterClicked); // Second parameter to addEventListener doesn't have to be an anonymous function, but can be an already declared function, if the only passed parameter is the event itself;
   } // CONSTRUCTOR END;
 
   // TOGGLER FOR DISABLING/ENABLING START BUTTON;
@@ -48,7 +53,6 @@ export default class GameController {
 
   // INPUTS FOR PLAYER NAME AND #HOLES;
   handleHolesInputChanged = (numberOfHoles) => {
-    console.log(numberOfHoles);
     this.gameModel.setNumberOfHoles(numberOfHoles);
     this.handleToggleStartButton();
   };
@@ -67,8 +71,18 @@ export default class GameController {
       this.handleStartGame();
     }
   };
-
   // START GAME;
+
+  handleEnterClicked = (e) => {
+    if (
+      e.keyCode === 13 &&
+      this.gameModel.game.playerName?.length > 0 &&
+      this.gameModel.game.numberOfHoles > 0
+    ) {
+      this.handleStartGame();
+      return;
+    }
+  };
   handleStartGameClicked = () => {
     this.handleStartGame();
   };
@@ -110,6 +124,8 @@ export default class GameController {
       holeNumber,
       this.gameModel.game.currentScore[holeNumber],
     );
+    if (!this.gameModel.game.gameMuted)
+      this.gameView.playSound('increase');
     this.gameView.toggleDisableDecrementButton(false, holeNumber);
     this.gameView.updateScore(
       this.gameModel.getTotalScore(),
@@ -123,6 +139,8 @@ export default class GameController {
       holeNumber,
       this.gameModel.game.currentScore[holeNumber],
     );
+    if (!this.gameModel.game.gameMuted)
+      this.gameView.playSound('decrease');
     this.gameView.updateScore(
       this.gameModel.getTotalScore(),
       this.gameModel.getAveragePerHole(),
@@ -147,8 +165,12 @@ export default class GameController {
     this.handleToggleStartButton();
     this.gameView.toggleGameView(!!this.savedGame);
     this.gameView.focusPlayerNameInput();
-
     //Clear cached game;
     clearFromLocalStorage('scoreBoard');
+  };
+
+  handleMute = () => {
+    this.gameModel.toggleMute();
+    this.gameView.setMuteIcon(this.gameModel.game.gameMuted);
   };
 }

@@ -5,7 +5,44 @@ export default class GameView {
     // App root element;
     this.app = this.getElement('#appContainer');
 
+    // AUDIO ELEMENTS;
+    // Adding audio sounds;
+    this.decreaseSound = this.createElement(
+      'audio',
+      null,
+      'decreaseSound',
+    );
+    this.decreaseSound.setAttribute('src', './audio/decrease.mp3'); // PATH is relative to the page actually playing the sound (which, in the end, is index.html in the root ), and not this actual script page;
+    this.decreaseSound.load();
+    this.increaseSound = this.createElement(
+      'audio',
+      null,
+      'increaseSound',
+    );
+    this.increaseSound.src = './audio/increase.mp3';
+    this.increaseSound.load();
+
+    this.app.appendChild(this.decreaseSound, this.increaseSound);
+
     // SETING UP ELEMENTS;
+
+    // Top bar
+    this.topbar = this.createElement('div', null, 'topbar');
+    this.app.append(this.topbar);
+    this.muteButton = this.createElement(
+      'button',
+      ['btn', 'btn-secondary', 'btn-sm'],
+      'muteButton',
+    );
+    this.topbar.append(this.muteButton);
+
+    this.muteIcon = this.createElement(
+      'i',
+      ['fas', 'fa-volume-up'],
+      null,
+    );
+    this.muteButton.append(this.muteIcon);
+
     // Header section
     this.header = this.createElement('h1', ['text-dark', 'm4'], null);
     this.header.textContent =
@@ -303,6 +340,12 @@ export default class GameView {
     });
   };
 
+  listenMute = (callback) => {
+    this.muteButton.addEventListener('click', () => {
+      if (callback) callback();
+    });
+  };
+
   // Helpers for conditional rendering of UI;
   toggleStartGameButton = (show) => {
     this.startGameButton.disabled = show;
@@ -316,5 +359,50 @@ export default class GameView {
     this.gameData.classList.toggle('hideElement');
     this.gameDataInput.classList.toggle('hideElement');
     if (showRestoreButton) this.toggleRestoreGameButton();
+  };
+
+  // Helper for audio;
+  playSound = (type) => {
+    if (type === 'increase' || type === 'decrease') {
+      let audioSound;
+      type === 'increase'
+        ? (audioSound = this.increaseSound)
+        : (audioSound = this.decreaseSound);
+
+      audioSound.currentTime = 0;
+      audioSound.load();
+      audioSound.play();
+
+      return;
+    }
+    return;
+  };
+
+  setMuteIcon = (shouldMute) => {
+    console.log(shouldMute);
+    if (shouldMute) {
+      this.muteIcon.classList.contains('fa-volume-up') &&
+        this.muteIcon.classList.replace(
+          'fa-volume-up',
+          'fa-volume-mute',
+        );
+      this.muteButton.classList.replace(
+        'btn-secondary',
+        'btn-danger',
+      );
+
+      return;
+    } else if (!shouldMute) {
+      this.muteIcon.classList.contains('fa-volume-mute') &&
+        this.muteIcon.classList.replace(
+          'fa-volume-mute',
+          'fa-volume-up',
+        );
+      this.muteButton.classList.replace(
+        'btn-danger',
+        'btn-secondary',
+      );
+    }
+    return;
   };
 }
