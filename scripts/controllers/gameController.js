@@ -20,15 +20,41 @@ export default class GameController {
     this.gameView.listenBeginReset(this.handleBeginReset);
     this.gameView.listenMute(this.handleMute);
 
+    this.newGameStarted = false;
+
     this.savedGame = jsonTryParse(getFromLocalStorage('scoreBoard'));
     if (this.savedGame) {
-      this.gameView.setRestoreTitle(this.savedGame.restoreTime);
-      this.gameView.toggleRestoreGameButton();
+      this.handleSetRestoreTimeLabel();
+      this.gameView.toggleRestoreGameButton(true);
+      this.gameView.SetRestoreTimeLabel(
+        new Date(this.savedGame.restoreTime),
+        this.newGameStarted,
+      );
     }
+
+    // UPDATE RESTORE LABEL;
+    const timeRestoreLabelUpdater = setInterval(
+      this.handleSetRestoreTimeLabel,
+      5000,
+    );
 
     // ADDING EVENT LISTENER FOR STARTING GAME ON ENTER CLICK;
     window.addEventListener('keyup', this.handleEnterClicked); // Second parameter to addEventListener doesn't have to be an anonymous function, but can be an already declared function, if the only passed parameter is the event itself;
   } // CONSTRUCTOR END;
+
+  handleSetRestoreTimeLabel = () => {
+    const savedGameTime = jsonTryParse(
+      getFromLocalStorage('scoreBoard'),
+    )?.restoreTime;
+    if (savedGameTime) {
+      this.gameView.SetRestoreTimeLabel(
+        new Date(savedGameTime),
+        this.newGameStarted,
+      );
+      return;
+    }
+    this.gameView.SetRestoreTimeLabel();
+  };
 
   // TOGGLER FOR DISABLING/ENABLING START BUTTON;
   handleToggleStartButton = () => {
@@ -71,8 +97,8 @@ export default class GameController {
       this.handleStartGame();
     }
   };
-  // START GAME;
 
+  // START GAME;
   handleEnterClicked = (e) => {
     if (
       e.keyCode === 13 &&
@@ -113,8 +139,11 @@ export default class GameController {
       this.gameModel.getTotalScore(),
       this.gameModel.getAveragePerHole(),
     );
+    this.newGameStarted = true;
+    this.handleSetRestoreTimeLabel();
+    this.gameView.playSound('magic');
     this.gameView.toggleGameView();
-    this.gameModel.cacheGame();
+    this.cacheGame();
   };
 
   // HANDLERS FOR DECREASE/INCREASE SCORE;
@@ -131,6 +160,7 @@ export default class GameController {
       this.gameModel.getTotalScore(),
       this.gameModel.getAveragePerHole(),
     );
+    this.cacheGame();
   };
 
   handleDecrease = (holeNumber) => {
@@ -147,6 +177,7 @@ export default class GameController {
     );
     if (this.gameModel.game.currentScore[holeNumber] == 0)
       this.gameView.toggleDisableDecrementButton(true, holeNumber);
+    this.cacheGame();
   };
 
   // RESET GAME;
@@ -160,17 +191,31 @@ export default class GameController {
       null,
       this.gameModel.game.defaultNumberOfHoles,
     );
+
     this.gameView.updatePlayerNameLabel('');
     this.gameView.listenBeginReset();
+
     this.handleToggleStartButton();
+
     this.gameView.toggleGameView(!!this.savedGame);
+
     this.gameView.focusPlayerNameInput();
+    this.newGameStarted = false;
+
     //Clear cached game;
     clearFromLocalStorage('scoreBoard');
+
+    //Setting restore time label after cache is cleared;
+    this.handleSetRestoreTimeLabel();
   };
 
   handleMute = () => {
     this.gameModel.toggleMute();
     this.gameView.setMuteIcon(this.gameModel.game.gameMuted);
+  };
+
+  cacheGame = () => {
+    this.gameModel.cacheGame();
+    this.handleSetRestoreTimeLabel();
   };
 }

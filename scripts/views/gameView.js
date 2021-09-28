@@ -1,4 +1,5 @@
 import generatePrizeEmoji from '../utils/generatePrizeEmoji.js';
+import timeStringBetweenDates from '../utils/timeStringBetweenDates.js';
 
 export default class GameView {
   constructor() {
@@ -22,13 +23,30 @@ export default class GameView {
     this.increaseSound.src = './audio/increase.mp3';
     this.increaseSound.load();
 
-    this.app.appendChild(this.decreaseSound, this.increaseSound);
+    this.magicSound = this.createElement('audio', null, 'magicSound');
+    this.magicSound.setAttribute('src', './audio/magic.mp3'); // PATH is relative to the page actually playing the sound (which, in the end, is index.html in the root ), and not this actual script page;
+    this.magicSound.load();
+
+    this.app.appendChild(
+      this.decreaseSound,
+      this.increaseSound,
+      this.thisMagicSound,
+    );
 
     // SETING UP ELEMENTS;
 
     // Top bar
     this.topbar = this.createElement('div', null, 'topbar');
     this.app.append(this.topbar);
+
+    this.restoreTimeLabel = this.createElement(
+      'span',
+      ['hideOnSmall'],
+      'restoreTimeLabel',
+    );
+    this.restoreTimeLabel.textContent = 'No backup data available';
+    this.topbar.appendChild(this.restoreTimeLabel);
+
     this.muteButton = this.createElement(
       'button',
       ['btn', 'btn-secondary', 'btn-sm'],
@@ -351,35 +369,66 @@ export default class GameView {
     this.startGameButton.disabled = show;
   };
 
-  toggleRestoreGameButton = () => {
-    this.restoreGameButton.classList.toggle('hideElement');
+  toggleRestoreGameButton = (show) => {
+    if (
+      !show &&
+      !this.restoreGameButton.classList.contains('hideElement')
+    ) {
+      this.restoreGameButton.classList.add('hideElement');
+    } else if (show) {
+      this.restoreGameButton.classList.remove('hideElement');
+    }
   };
 
   toggleGameView = (showRestoreButton) => {
     this.gameData.classList.toggle('hideElement');
     this.gameDataInput.classList.toggle('hideElement');
-    if (showRestoreButton) this.toggleRestoreGameButton();
+    if (showRestoreButton)
+      this.toggleRestoreGameButton(showRestoreButton);
   };
 
   // Helper for audio;
   playSound = (type) => {
-    if (type === 'increase' || type === 'decrease') {
+    if (
+      type === 'increase' ||
+      type === 'decrease' ||
+      type === 'magic'
+    ) {
       let audioSound;
-      type === 'increase'
-        ? (audioSound = this.increaseSound)
-        : (audioSound = this.decreaseSound);
 
+      switch (type) {
+        case 'decrease':
+          audioSound = this.decreaseSound;
+          break;
+        case 'increase':
+          audioSound = this.increaseSound;
+          break;
+        case 'magic':
+          audioSound = this.magicSound;
+      }
       audioSound.currentTime = 0;
       audioSound.load();
       audioSound.play();
-
       return;
     }
     return;
   };
 
+  SetRestoreTimeLabel = (newTime, newGame) => {
+    if (newTime instanceof Date) {
+      const timeString = timeStringBetweenDates(
+        newTime,
+        new Date(),
+      ).toLowerCase();
+      this.restoreTimeLabel.textContent = !newGame
+        ? `Previous game was backed up ${timeString}`
+        : `Backed up ${timeString}`;
+    } else if (!newTime)
+      this.restoreTimeLabel.textContent = 'No backup data available';
+  };
+
   setMuteIcon = (shouldMute) => {
-    console.log(shouldMute);
+    console.info(shouldMute ? 'Muting sound' : 'Umuting sound');
     if (shouldMute) {
       this.muteIcon.classList.contains('fa-volume-up') &&
         this.muteIcon.classList.replace(

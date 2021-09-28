@@ -35,12 +35,10 @@ export default class GameModel {
   // Functions to set game data;
   setNumberOfHoles = (numberOfHoles) => {
     this.game.numberOfHoles = numberOfHoles > 11 ? 12 : numberOfHoles;
-    // this.cacheGame();
   };
 
   setPlayerName = (name) => {
     this.game.playerName = name;
-    //this.cacheGame();
   };
 
   setCurrentScore = (score) => {
@@ -49,7 +47,7 @@ export default class GameModel {
   };
 
   setHoleScore = (holeNumber, initialScore) => {
-    if (!this.game.currentScore) this.game.currenScore = { 1: 0 };
+    if (!this.game.currentScore) this.game.currentScore = { 1: 0 };
     this.game.currentScore[holeNumber] = initialScore || 0;
     this.cacheGame();
   };
@@ -57,13 +55,11 @@ export default class GameModel {
   // Functions to increment hole scores;
   incrementHoleScore = (holeNumber) => {
     this.game.currentScore[holeNumber]++;
-    this.cacheGame();
   };
 
   decrementHoleScore = (holeNumber) => {
     if (this.game.currentScore[holeNumber] < 1) return;
     this.game.currentScore[holeNumber]--;
-    this.cacheGame();
   };
 
   // Functions to reset game;
@@ -89,7 +85,9 @@ export default class GameModel {
     saveToLocalStorage(
       'scoreBoard',
       jsonTryStringify(
-        Object.assign({}, this.game, { restoreTime: new Date() }),
+        Object.assign({}, this.game, {
+          restoreTime: new Date(),
+        }),
       ),
     );
   };
